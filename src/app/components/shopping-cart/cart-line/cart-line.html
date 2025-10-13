@@ -1,0 +1,26 @@
+<td (click)="startEditing('product.name')">
+    @if (isEditing('product.name')) {
+    <input type="text" [ngModel]="item().product.name" (ngModelChange)="updateField('product.name', $event)" autofocus
+        (keydown.enter)="stopEditing()" (blur)="stopEditing()" />
+    } @else {
+    {{ item().product.name }}
+    }
+</td>
+<td (click)="startEditing('quantity')">
+    @if (isEditing('quantity')) {
+    <input type="number" [ngModel]="item().quantity" (ngModelChange)="updateField('quantity', $event)" autofocus
+        (keydown.enter)="stopEditing()" (blur)="stopEditing()" />
+    } @else {
+    {{ item().quantity }}
+    }
+</td>
+<td (click)="startEditing('price')">
+    @if (isEditing('price')) {
+    <input type="number" [ngModel]="item().price" (ngModelChange)="updateField('price', $event)" autofocus
+        (keydown.enter)="stopEditing()" (blur)="stopEditing()" />
+    } @else {
+    {{ item().price | number : '1.2-2' }}
+    }
+</td>
+<td>{{ total() | number : '1.2-2' }}</td>
+<td><button (click)="removeItem()">Remove</button></td>

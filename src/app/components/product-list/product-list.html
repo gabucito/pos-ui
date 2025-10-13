@@ -1,0 +1,21 @@
+<div class="product-list-container">
+    <div class="filters">
+        <input type="text" placeholder="Search products..." (input)="onSearch($event)">
+        <select (change)="onSelectCategory($event)">
+            <option value="">All Categories</option>
+            @for (category of categories(); track category) {
+                <option [value]="category">{{ category }}</option>
+            }
+        </select>
+    </div>
+    <div class="product-grid">
+        @for (product of filteredProducts(); track product.id) {
+            <div class="product-card">
+                <img [src]="product.imageUrl" [alt]="product.name">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <button (click)="addProductToCart(product)">Add to Cart</button>
+            </div>
+        }
+    </div>
+</div>

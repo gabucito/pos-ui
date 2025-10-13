@@ -1,0 +1,41 @@
+
+> pos-ui@0.0.0 test
+> ng test
+
+❯ Building...
+✔ Building...
+Initial chunk files                                           | Names                                                      |  Raw size
+chunk-O2CMNXWL.js                                             | -                                                          |   2.24 MB | 
+polyfills.js                                                  | polyfills                                                  | 943.14 kB | 
+chunk-TB3N5DJN.js                                             | -                                                          | 231.51 kB | 
+chunk-WXY5CKZ7.js                                             | -                                                          | 193.08 kB | 
+test_main.js                                                  | test_main                                                  |  59.80 kB | 
+chunk-LLTGE3IN.js                                             | -                                                          |  28.79 kB | 
+spec-app-pages-pos-pos.spec.js                                | spec-app-pages-pos-pos.spec                                |   7.46 kB | 
+spec-app-components-shopping-cart-shopping-cart.spec.js       | spec-app-components-shopping-cart-shopping-cart.spec       |   6.94 kB | 
+chunk-ZOITBBE6.js                                             | -                                                          |   6.55 kB | 
+chunk-TB2L3HYI.js                                             | -                                                          |   4.96 kB | 
+spec-app-components-product-list-product-list.spec.js         | spec-app-components-product-list-product-list.spec         |   4.95 kB | 
+chunk-SM5BOKJZ.js                                             | -                                                          |   4.58 kB | 
+spec-app-components-shopping-cart-cart-line-cart-line.spec.js | spec-app-components-shopping-cart-cart-line-cart-line.spec |   4.23 kB | 
+chunk-ADBCMSTJ.js                                             | -                                                          |   3.41 kB | 
+spec-app-components-customer-form-customer-form.spec.js       | spec-app-components-customer-form-customer-form.spec       |   2.89 kB | 
+chunk-CYVZP3HK.js                                             | -                                                          |   2.84 kB | 
+spec-app-components-variant-modal-variant-modal.spec.js       | spec-app-components-variant-modal-variant-modal.spec       |   2.68 kB | 
+spec-app-app.spec.js                                          | spec-app-app.spec                                          |   2.23 kB | 
+spec-app-components-payment-modal-payment-modal.spec.js       | spec-app-components-payment-modal-payment-modal.spec       |   2.20 kB | 
+chunk-GRKVY5P7.js                                             | -                                                          | 763 bytes | 
+jasmine-cleanup-0.js                                          | jasmine-cleanup-0                                          | 519 bytes | 
+styles.css                                                    | styles                                                     |  96 bytes | 
+
+                                                              | Initial total                                              |   3.76 MB
+
+Application bundle generation complete. [2.547 seconds] - 2025-10-13T04:26:52.408Z
+
+Watch mode enabled. Watching for file changes...
+[33m13 10 2025 01:26:52.593:WARN [karma]: [39mNo captured browser, open http://localhost:9876/
+[32m13 10 2025 01:26:52.615:INFO [karma-server]: [39mKarma v6.4.4 server started at http://localhost:9876/
+[32m13 10 2025 01:26:52.616:INFO [launcher]: [39mLaunching browsers Chrome with concurrency unlimited
+[32m13 10 2025 01:26:52.621:INFO [launcher]: [39mStarting browser Chrome
+[91m13 10 2025 01:26:52.625:ERROR [launcher]: [39mNo binary for Chrome browser on your platform.
+  Please, set "CHROME_BIN" env variable.

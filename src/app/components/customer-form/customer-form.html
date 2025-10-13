@@ -1,0 +1,18 @@
+<div class="customer-form-container">
+    <h3>Customer Information</h3>
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" formControlName="phone">
+        </div>
+        <button type="submit" [disabled]="!customerForm.valid">Save Customer</button>
+    </form>
+</div>

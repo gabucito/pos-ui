@@ -140,6 +140,7 @@ Here is a link to the most recent Angular style guide https://angular.dev/style-
 - Always use standalone components over `NgModules`
 - Do NOT set `standalone: true` inside the `@Component`, `@Directive` and `@Pipe` decorators
 - Use signals for state management
+- Always be using signals wherever possible
 - Implement lazy loading for feature routes
 - Use `NgOptimizedImage` for all static images.
 - Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead

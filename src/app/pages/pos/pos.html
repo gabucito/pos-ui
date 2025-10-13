@@ -1,0 +1,25 @@
+<div class="pos-container">
+    <app-product-list 
+        (productAdded)="onProductAdded($event)"
+        (openVariantModal)="onOpenVariantModal($event)">
+    </app-product-list>
+    <div class="sidebar">
+        @if (selectedCustomer(); as customer) {
+            <div>
+                <h3>Selected Customer:</h3>
+                <p>{{ customer.name }}</p>
+            </div>
+        } @else {
+            <app-customer-form (customerSelected)="onCustomerSelected($event)"></app-customer-form>
+        }
+        <app-shopping-cart [items]="cartItems()" (updateItems)="cartItems.set($event)"></app-shopping-cart>
+    </div>
+</div>
+
+@if (isVariantModalOpen()) {
+    <app-variant-modal 
+        [product]="selectedProductForVariant()"
+        (closeModal)="onCloseVariantModal()"
+        (variantSelected)="onVariantSelected($event)">
+    </app-variant-modal>
+}

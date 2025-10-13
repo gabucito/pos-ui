@@ -1,0 +1,16 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Select a Variant for {{ product()?.name }}</h2>
+    @if (product()) {
+      @for (variant of product()!.variants; track variant.id) {
+        <h3>{{ variant.name }}</h3>
+        @for (option of variant.options; track option.id) {
+          <button (click)="selectVariant(option)">
+            {{ option.name }} - ${{ option.price }}
+          </button>
+        }
+      }
+    }
+    <button (click)="onClose()">Close</button>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.product-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .filters {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+
+        .product-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 1rem;
+            }
+
+            button {
+                margin-top: auto;
+            }
+        }
+    }
+}
