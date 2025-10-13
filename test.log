@@ -4,7 +4,49 @@
 
 ❯ Building...
 ✔ Building...
-Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
+Application bundle generation failed. [2.328 seconds] - 2025-10-13T13:19:03.227Z
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'productAdded' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:81:22:
+[37m      81 │       spyOn(component.[32mproductAdded[37m, 'emit');
+         ╵                       [32m~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'openVariantModal' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:82:22:
+[37m      82 │       spyOn(component.[32mopenVariantModal[37m, 'emit');
+         ╵                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'openVariantModal' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:91:23:
+[37m      91 │       expect(component.[32mopenVariantModal[37m.emit).toHaveBeenCalledWith...
+         ╵                        [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'productAdded' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:92:23:
+[37m      92 │       expect(component.[32mproductAdded[37m.emit).not.toHaveBeenCalled();
+         ╵                        [32m~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'productAdded' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:102:23:
+[37m      102 │       expect(component.[32mproductAdded[37m.emit).toHaveBeenCalledWith(ja...
+          ╵                        [32m~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'openVariantModal' does not exist on type 'ProductList'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/product-list/product-list.spec.ts:110:23:
+[37m      110 │       expect(component.[32mopenVariantModal[37m.emit).not.toHaveBeenCalle...
+          ╵                        [32m~~~~~~~~~~~~~~~~[0m
+
 
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
 
@@ -27,18 +69,11 @@ Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
          ╵     [32m~~~~~[0m
 
 
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'processedItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
 
-    src/app/components/shopping-cart/shopping-cart.spec.ts:108:26:
-[37m      108 │       expect(processed[0].[32mtotal[37m).toBe(10);
-          ╵                           [32m~~~~~[0m
-
-
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
-
-    src/app/components/shopping-cart/shopping-cart.spec.ts:110:26:
-[37m      110 │       expect(processed[1].[32mtotal[37m).toBe(36); // 2 * 18
-          ╵                           [32m~~~~~[0m
+    src/app/components/shopping-cart/shopping-cart.spec.ts:105:34:
+[37m      105 │       const processed = component.[32mprocessedItems[37m();
+          ╵                                   [32m~~~~~~~~~~~~~~[0m
 
 
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
@@ -48,25 +83,53 @@ Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
           ╵         [32m~~~~~[0m
 
 
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'processedItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
 
-    src/app/components/shopping-cart/shopping-cart.spec.ts:125:26:
-[37m      125 │       expect(processed[0].[32mtotal[37m).toBe(15);
-          ╵                           [32m~~~~~[0m
-
-
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
-
-    src/app/components/shopping-cart/shopping-cart.spec.ts:127:26:
-[37m      127 │       expect(processed[1].[32mtotal[37m).toBe(36);
-          ╵                           [32m~~~~~[0m
+    src/app/components/shopping-cart/shopping-cart.spec.ts:123:34:
+[37m      123 │       const processed = component.[32mprocessedItems[37m();
+          ╵                                   [32m~~~~~~~~~~~~~~[0m
 
 
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'processedItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
 
-    src/app/components/shopping-cart/shopping-cart.spec.ts:144:26:
-[37m      144 │       expect(processed[0].[32mtotal[37m).toBe(18); // 2 * 9
-          ╵                           [32m~~~~~[0m
+    src/app/components/shopping-cart/shopping-cart.spec.ts:142:34:
+[37m      142 │       const processed = component.[32mprocessedItems[37m();
+          ╵                                   [32m~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'updateItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:150:22:
+[37m      150 │       spyOn(component.[32mupdateItems[37m, 'emit');
+          ╵                       [32m~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'updateItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:161:23:
+[37m      161 │       expect(component.[32mupdateItems[37m.emit).toHaveBeenCalledWith(exp...
+          ╵                        [32m~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'updateItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:172:23:
+[37m      172 │       expect(component.[32mupdateItems[37m.emit).toHaveBeenCalledWith(exp...
+          ╵                        [32m~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'updateItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:183:23:
+[37m      183 │       expect(component.[32mupdateItems[37m.emit).toHaveBeenCalledWith(exp...
+          ╵                        [32m~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'updateItems' does not exist on type 'ShoppingCart'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:190:23:
+[37m      190 │       expect(component.[32mupdateItems[37m.emit).toHaveBeenCalledWith(exp...
+          ╵                        [32m~~~~~~~~~~~[0m
 
 
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
@@ -76,6 +139,14 @@ Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
          ╵         [32m~~~~~[0m
 
 
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'OrderItem' is not assignable to parameter of type 'Product'.
+  Type 'OrderItem' is missing the following properties from type 'Product': name, description, imageUrl, category, variants[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:43:31:
+[37m      43 │       component.onProductAdded([32morderItem[37m);
+         ╵                                [32m~~~~~~~~~[0m
+
+
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
 
     src/app/pages/pos/pos.spec.ts:55:8:
@@ -83,11 +154,26 @@ Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
          ╵         [32m~~~~~[0m
 
 
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'set' does not exist on type 'Signal<OrderItem[]>'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:57:26:
+[37m      57 │       component.cartItems.[32mset[37m([initialOrderItem]);
+         ╵                           [32m~~~[0m
+
+
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
 
     src/app/pages/pos/pos.spec.ts:65:8:
 [37m      65 │         [32mtotal[37m: product.price
          ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'OrderItem' is not assignable to parameter of type 'Product'.
+  Type 'OrderItem' is missing the following properties from type 'Product': name, description, imageUrl, category, variants[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:67:31:
+[37m      67 │       component.onProductAdded([32mnewItem[37m);
+         ╵                                [32m~~~~~~~[0m
 
 
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
@@ -111,11 +197,34 @@ Application bundle generation failed. [2.604 seconds] - 2025-10-13T12:33:23.600Z
          ╵         [32m~~~~~[0m
 
 
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'set' does not exist on type 'Signal<OrderItem[]>'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:98:26:
+[37m      98 │       component.cartItems.[32mset[37m([item1]);
+         ╵                           [32m~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'OrderItem' is not assignable to parameter of type 'Product'.
+  Type 'OrderItem' is missing the following properties from type 'Product': name, description, imageUrl, category, variants[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:99:31:
+[37m      99 │       component.onProductAdded([32mitem2[37m); // Add a different variant ...
+         ╵                                [32m~~~~~[0m
+
+
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
 
     src/app/pages/pos/pos.spec.ts:109:8:
 [37m      109 │         [32mtotal[37m: variant1.price!
           ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'OrderItem' is not assignable to parameter of type 'Product'.
+  Type 'OrderItem' is missing the following properties from type 'Product': name, description, imageUrl, category, variants[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:111:31:
+[37m      111 │ ... component.onProductAdded([32mitem1Again[37m); // Add the first varian...
+          ╵                              [32m~~~~~~~~~~[0m
 
 
 [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m

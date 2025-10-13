@@ -1,9 +1,13 @@
 <div class="pos-container">
-    <app-product-list 
-        (productAdded)="onProductAdded($event)"
-        (openVariantModal)="onOpenVariantModal($event)">
-    </app-product-list>
+    <app-product-list></app-product-list>
     <div class="sidebar">
+        <div class="order-management">
+            <button (click)="addOrder()">New Order</button>
+            @for (order of orders(); track order.id; let i = $index) {
+                <button (click)="switchOrder(i)">Order {{ i + 1 }}</button>
+                <button (click)="closeOrder(i)">Close Order {{ i + 1 }}</button>
+            }
+        </div>
         @if (selectedCustomer(); as customer) {
             <div>
                 <h3>Selected Customer:</h3>
@@ -12,7 +16,7 @@
         } @else {
             <app-customer-form (customerSelected)="onCustomerSelected($event)"></app-customer-form>
         }
-        <app-shopping-cart [items]="cartItems()" (updateItems)="cartItems.set($event)"></app-shopping-cart>
+        <app-shopping-cart></app-shopping-cart>
         <button class="pay-button" (click)="onPay()" [disabled]="cartItems().length === 0">Pay</button>
     </div>
 </div>

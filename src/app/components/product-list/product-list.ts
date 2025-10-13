@@ -1,9 +1,10 @@
-import { Component, signal, computed, output } from '@angular/core';
+import { Component, signal, computed, output, inject } from '@angular/core';
 import { Product, PriceTier } from '../../models/product'; // Import PriceTier
 import { PRODUCTS } from '../../mock-data';
 import { OrderItem } from '../../models/order';
 import { v7 as uuidv7 } from 'uuid';
 import { getTieredPrice } from '../../utils/pricing.utils';
+import { PosService } from '../../services/pos.service';
 
 @Component({
   selector: 'app-product-list',
@@ -12,8 +13,7 @@ import { getTieredPrice } from '../../utils/pricing.utils';
   styleUrl: './product-list.scss'
 })
 export class ProductList {
-  productAdded = output<OrderItem>();
-  openVariantModal = output<Product>();
+  private posService = inject(PosService);
 
   products = signal<Product[]>(PRODUCTS);
   searchTerm = signal<string>('');
@@ -44,21 +44,6 @@ export class ProductList {
   }
 
   addProductToCart(product: Product) {
-    if (product.variants.length > 0) {
-      this.openVariantModal.emit(product);
-    } else {
-      const quantity = 1;
-      const newPrice = getTieredPrice(product.price, quantity, product.priceTiers);
-
-      const orderItem: OrderItem = {
-        id: uuidv7(),
-        product: product,
-        variant: null,
-        quantity: quantity,
-        basePrice: product.price,
-        price: newPrice
-      };
-      this.productAdded.emit(orderItem);
-    }
+    this.posService.addProductToCart(product);
   }
 }

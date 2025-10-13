@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output, signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Order } from '../../models/order';
 import { CurrencyPipe, KeyValuePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PosService } from '../../services/pos.service';
 
 export enum PaymentType {
   CASH = 'Cash',
@@ -23,6 +24,8 @@ export interface Payment {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentModal {
+  private posService = inject(PosService);
+
   order = input.required<Order>();
   isModalOpen = model(false);
   
@@ -83,6 +86,7 @@ export class PaymentModal {
       return;
     }
 
+    this.posService.onPaymentSuccess();
     this.isModalOpen.set(false);
   }
 }

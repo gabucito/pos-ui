@@ -1,8 +1,9 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal, inject } from '@angular/core';
 import { OrderItem } from '../../models/order';
 import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
 import { CartLine } from './cart-line/cart-line';
 import { getTieredPrice } from '../../utils/pricing.utils';
+import { PosService } from '../../services/pos.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,43 +12,13 @@ import { getTieredPrice } from '../../utils/pricing.utils';
   styleUrl: './shopping-cart.scss',
 })
 export class ShoppingCart {
-  items = input.required<OrderItem[]>();
+  private posService = inject(PosService);
 
-  // Emits events to the parent to request updates.
-  updateItems = output<OrderItem[]>();
+  items = this.posService.processedItems;
 
-  subtotal = computed(() => this.processedItems().reduce((acc, item) => acc + (item.quantity * item.price), 0));
-  tax = computed(() => this.subtotal() * 0.19); // 19% tax
-  total = computed(() => this.subtotal() + this.tax());
-
-  // A computed signal to process and update all prices reactively
-  processedItems = computed(() => {
-    const currentItems = this.items();
-    const productQuantities = this.calculateProductQuantities(currentItems);
-
-    return currentItems.map((item) => {
-      const totalQuantity = productQuantities.get(item.product.id) || 0;
-      // Use manually overridden price if it exists
-      const newPrice = item.priceOverridden
-        ? item.price
-        : getTieredPrice(item.product.price, totalQuantity, item.product.priceTiers);
-
-      // Return a new object with the updated price
-      return {
-        ...item,
-        price: newPrice,
-      };
-    });
-  });
-
-  private calculateProductQuantities(items: OrderItem[]): Map<string, number> {
-    const productQuantities = new Map<string, number>();
-    for (const item of items) {
-      const currentQuantity = productQuantities.get(item.product.id) || 0;
-      productQuantities.set(item.product.id, currentQuantity + item.quantity);
-    }
-    return productQuantities;
-  }
+  subtotal = computed(() => this.posService.cartTotals().subtotal);
+  tax = computed(() => this.posService.cartTotals().tax);
+  total = computed(() => this.posService.cartTotals().total);
 
   // Event handler for a quantity change
   handleUpdateQuantity(event: { itemId: string; newQuantity: number }) {
@@ -62,7 +33,7 @@ export class ShoppingCart {
       }
       return item;
     });
-    this.updateItems.emit(newItems);
+    this.posService.onCartUpdated(newItems);
   }
 
   // Event handler for a price change
@@ -75,7 +46,7 @@ export class ShoppingCart {
         ? { ...item, price: newPrice, priceOverridden: true } // Set the override flag
         : item
     );
-    this.updateItems.emit(newItems);
+    this.posService.onCartUpdated(newItems);
   }
 
   // Event handler for a product name change
@@ -85,11 +56,11 @@ export class ShoppingCart {
     const newItems = currentItems.map((item) =>
       item.id === itemId ? { ...item, product: { ...item.product, name: newName } } : item
     );
-    this.updateItems.emit(newItems);
+    this.posService.onCartUpdated(newItems);
   }
 
   handleRemove(deleteItem: OrderItem) {
     const newItems = this.items().filter((item) => item.id !== deleteItem.id);
-    this.updateItems.emit(newItems); // Emit the new array
+    this.posService.onCartUpdated(newItems); // Emit the new array
   }
 }
