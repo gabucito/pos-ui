@@ -28,7 +28,7 @@ export class ShoppingCart {
       // When quantity changes, clear any manual price override for this item
       // and recalculate the tiered price based on the new total quantity.
       if (item.id === itemId) {
-        const newPrice = getTieredPrice(item.basePrice, newQuantity, item.variant?.priceTiers);
+        const newPrice = getTieredPrice(item.product, newQuantity, item.variant);
         return { ...item, quantity: newQuantity, price: newPrice, priceOverridden: false };
       }
       return item;

@@ -25,7 +25,7 @@ export class PosService {
       // Use manually overridden price if it exists
       const newPrice = item.priceOverridden
         ? item.price
-        : getTieredPrice(item.product.price, totalQuantity, item.product.priceTiers);
+        : getTieredPrice(item.product, totalQuantity, item.variant);
 
       // Return a new object with the updated price
       return {
@@ -97,7 +97,7 @@ export class PosService {
       this.onOpenVariantModal(product);
     } else {
       const quantity = 1;
-      const newPrice = getTieredPrice(product.price, quantity, product.priceTiers);
+      const newPrice = getTieredPrice(product, quantity);
 
       const orderItem: OrderItem = {
         id: uuidv7(),
@@ -122,7 +122,7 @@ export class PosService {
         currentOrder.items = currentOrder.items.map((i, index) => {
           if (index === existingItemIndex) {
             const newQuantity = i.quantity + 1;
-            const newPrice = getTieredPrice(i.basePrice, newQuantity, i.variant?.priceTiers);
+            const newPrice = getTieredPrice(i.product, newQuantity, i.variant);
             return { ...i, quantity: newQuantity, price: newPrice };
           }
           return i;
@@ -197,7 +197,7 @@ export class PosService {
 
       if (selectedVariant) {
         const quantity = 1;
-        const newPrice = getTieredPrice(selectedVariant.price, quantity, selectedVariant.priceTiers);
+        const newPrice = getTieredPrice(product, quantity, selectedVariant);
         console.log(newPrice);
         const orderItem: OrderItem = {
           id: uuidv7(),

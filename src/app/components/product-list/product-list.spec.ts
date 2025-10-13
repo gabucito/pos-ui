@@ -3,20 +3,28 @@ import { ProductList } from './product-list';
 import { PRODUCTS } from '../../mock-data';
 import { Product } from '../../models/product';
 import * as uuid from 'uuid';
-import * as pricingUtils from '../../utils/pricing.utils';
+import { PosService } from '../../services/pos.service';
 
 describe('ProductList', () => {
   let component: ProductList;
   let fixture: ComponentFixture<ProductList>;
+  let posService: PosService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductList]
+      imports: [ProductList],
+      providers: [
+        { 
+          provide: PosService, 
+          useValue: { addProductToCart: jasmine.createSpy('addProductToCart') } 
+        }
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(ProductList);
     component = fixture.componentInstance;
+    posService = TestBed.inject(PosService);
     fixture.detectChanges();
   });
 
@@ -75,39 +83,10 @@ describe('ProductList', () => {
   });
 
   describe('addProductToCart', () => {
-    beforeEach(() => {
-      spyOn(uuid, 'v7' as any).and.returnValue('mock-uuid');
-      spyOn(pricingUtils, 'getTieredPrice').and.returnValue(100);
-      spyOn(component.productAdded, 'emit');
-      spyOn(component.openVariantModal, 'emit');
-    });
-
-    it('should emit openVariantModal if product has variants', () => {
-      const productWithVariants: Product = {
-        ...PRODUCTS[0],
-        variants: [{ id: 'size-variant', name: 'Size', options: [{ id: 's', name: 'Small', price: 10 }] }]
-      };
-      component.addProductToCart(productWithVariants);
-      expect(component.openVariantModal.emit).toHaveBeenCalledWith(productWithVariants);
-      expect(component.productAdded.emit).not.toHaveBeenCalled();
-    });
-
-    it('should emit productAdded if product has no variants', () => {
-      const productWithoutVariants: Product = {
-        ...PRODUCTS[0],
-        variants: []
-      };
-      component.addProductToCart(productWithoutVariants);
-      expect(pricingUtils.getTieredPrice).toHaveBeenCalledWith(productWithoutVariants.price, 1, productWithoutVariants.priceTiers);
-      expect(component.productAdded.emit).toHaveBeenCalledWith(jasmine.objectContaining({
-        id: 'mock-uuid',
-        product: productWithoutVariants,
-        quantity: 1,
-        basePrice: productWithoutVariants.price,
-        price: 100,
-        total: 100
-      }));
-      expect(component.openVariantModal.emit).not.toHaveBeenCalled();
+    it('should call posService.addProductToCart with the product', () => {
+      const product: Product = PRODUCTS[0];
+      component.addProductToCart(product);
+      expect(posService.addProductToCart).toHaveBeenCalledWith(product);
     });
   });
 });

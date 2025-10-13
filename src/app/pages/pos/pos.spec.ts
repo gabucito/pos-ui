@@ -173,13 +173,13 @@ describe('Pos', () => {
 
       component.onVariantSelected(variant);
 
-      expect(pricingUtils.getTieredPrice).toHaveBeenCalledWith(variant.price, 1, variant.priceTiers);
+      expect(pricingUtils.getTieredPrice).toHaveBeenCalledWith(product, 1, variant);
       expect(component.onProductAdded).toHaveBeenCalledWith(jasmine.objectContaining({
         id: 'mock-uuid',
         product: product,
         variant: variant,
         quantity: 1,
-        basePrice: variant.price,
+        basePrice: product.price,
         price: 10,
         total: 10
       }));

@@ -6,7 +6,7 @@
         <h3>{{ variant.name }}</h3>
         @for (option of variant.options; track option.id) {
           <button (click)="selectVariant(option)">
-            {{ option.name }} - ${{ option.price }}
+            {{ option.name }} - ${{ option.price ?? product()?.price }}
           </button>
         }
       }
