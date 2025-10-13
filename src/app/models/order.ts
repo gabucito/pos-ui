@@ -5,7 +5,7 @@ import { ProductVariantOption } from './product';
 export interface Order {
     id: string;
     items: OrderItem[];
-    customer: Customer;
+    customer: Customer | null;
     subtotal: number;
     tax: number;
     total: number;
@@ -19,6 +19,5 @@ export interface OrderItem {
     quantity: number;
     basePrice: number;
     price: number;
-    total: number;
     priceOverridden?: boolean;
 }

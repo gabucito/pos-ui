@@ -13,6 +13,7 @@
             <app-customer-form (customerSelected)="onCustomerSelected($event)"></app-customer-form>
         }
         <app-shopping-cart [items]="cartItems()" (updateItems)="cartItems.set($event)"></app-shopping-cart>
+        <button class="pay-button" (click)="onPay()" [disabled]="cartItems().length === 0">Pay</button>
     </div>
 </div>
 
@@ -22,4 +23,11 @@
         (closeModal)="onCloseVariantModal()"
         (variantSelected)="onVariantSelected($event)">
     </app-variant-modal>
+}
+
+@if (isPaymentModalOpen()) {
+    <app-payment-modal 
+        [order]="currentOrder()!"
+        [(isModalOpen)]="isPaymentModalOpen">    
+    </app-payment-modal>
 }

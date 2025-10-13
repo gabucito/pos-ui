@@ -1,41 +1,134 @@
 
 > pos-ui@0.0.0 test
-> ng test
+> ng test --no-watch --browsers=ChromeHeadless
 
 ❯ Building...
 ✔ Building...
-Initial chunk files                                           | Names                                                      |  Raw size
-chunk-O2CMNXWL.js                                             | -                                                          |   2.24 MB | 
-polyfills.js                                                  | polyfills                                                  | 943.14 kB | 
-chunk-TB3N5DJN.js                                             | -                                                          | 231.51 kB | 
-chunk-WXY5CKZ7.js                                             | -                                                          | 193.08 kB | 
-test_main.js                                                  | test_main                                                  |  59.80 kB | 
-chunk-LLTGE3IN.js                                             | -                                                          |  28.79 kB | 
-spec-app-pages-pos-pos.spec.js                                | spec-app-pages-pos-pos.spec                                |   7.46 kB | 
-spec-app-components-shopping-cart-shopping-cart.spec.js       | spec-app-components-shopping-cart-shopping-cart.spec       |   6.94 kB | 
-chunk-ZOITBBE6.js                                             | -                                                          |   6.55 kB | 
-chunk-TB2L3HYI.js                                             | -                                                          |   4.96 kB | 
-spec-app-components-product-list-product-list.spec.js         | spec-app-components-product-list-product-list.spec         |   4.95 kB | 
-chunk-SM5BOKJZ.js                                             | -                                                          |   4.58 kB | 
-spec-app-components-shopping-cart-cart-line-cart-line.spec.js | spec-app-components-shopping-cart-cart-line-cart-line.spec |   4.23 kB | 
-chunk-ADBCMSTJ.js                                             | -                                                          |   3.41 kB | 
-spec-app-components-customer-form-customer-form.spec.js       | spec-app-components-customer-form-customer-form.spec       |   2.89 kB | 
-chunk-CYVZP3HK.js                                             | -                                                          |   2.84 kB | 
-spec-app-components-variant-modal-variant-modal.spec.js       | spec-app-components-variant-modal-variant-modal.spec       |   2.68 kB | 
-spec-app-app.spec.js                                          | spec-app-app.spec                                          |   2.23 kB | 
-spec-app-components-payment-modal-payment-modal.spec.js       | spec-app-components-payment-modal-payment-modal.spec       |   2.20 kB | 
-chunk-GRKVY5P7.js                                             | -                                                          | 763 bytes | 
-jasmine-cleanup-0.js                                          | jasmine-cleanup-0                                          | 519 bytes | 
-styles.css                                                    | styles                                                     |  96 bytes | 
+Application bundle generation failed. [2.334 seconds] - 2025-10-13T12:16:25.304Z
 
-                                                              | Initial total                                              |   3.76 MB
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
 
-Application bundle generation complete. [2.547 seconds] - 2025-10-13T04:26:52.408Z
+    src/app/components/shopping-cart/cart-line/cart-line.spec.ts:40:4:
+[37m      40 │     [32mtotal[37m: 20
+         ╵     [32m~~~~~[0m
 
-Watch mode enabled. Watching for file changes...
-[33m13 10 2025 01:26:52.593:WARN [karma]: [39mNo captured browser, open http://localhost:9876/
-[32m13 10 2025 01:26:52.615:INFO [karma-server]: [39mKarma v6.4.4 server started at http://localhost:9876/
-[32m13 10 2025 01:26:52.616:INFO [launcher]: [39mLaunching browsers Chrome with concurrency unlimited
-[32m13 10 2025 01:26:52.621:INFO [launcher]: [39mStarting browser Chrome
-[91m13 10 2025 01:26:52.625:ERROR [launcher]: [39mNo binary for Chrome browser on your platform.
-  Please, set "CHROME_BIN" env variable.
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:51:4:
+[37m      51 │     [32mtotal[37m: 10
+         ╵     [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:60:4:
+[37m      60 │     [32mtotal[37m: 40
+         ╵     [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:108:26:
+[37m      108 │       expect(processed[0].[32mtotal[37m).toBe(10);
+          ╵                           [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:110:26:
+[37m      110 │       expect(processed[1].[32mtotal[37m).toBe(36); // 2 * 18
+          ╵                           [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:117:8:
+[37m      117 │         [32mtotal[37m: 15,
+          ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:125:26:
+[37m      125 │       expect(processed[0].[32mtotal[37m).toBe(15);
+          ╵                           [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:127:26:
+[37m      127 │       expect(processed[1].[32mtotal[37m).toBe(36);
+          ╵                           [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type '{ price: number; id: string; product: Product; variant?: ProductVariantOption | null | undefined; quantity: number; basePrice: number; priceOverridden?: boolean | undefined; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/shopping-cart/shopping-cart.spec.ts:144:26:
+[37m      144 │       expect(processed[0].[32mtotal[37m).toBe(18); // 2 * 9
+          ╵                           [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:41:8:
+[37m      41 │         [32mtotal[37m: product.price
+         ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:55:8:
+[37m      55 │         [32mtotal[37m: product.price
+         ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:65:8:
+[37m      65 │         [32mtotal[37m: product.price
+         ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:71:38:
+[37m      71 │       expect(component.cartItems()[0].[32mtotal[37m).toBe(product.price * 2);
+         ╵                                       [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:86:8:
+[37m      86 │         [32mtotal[37m: variant1.price!
+         ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:95:8:
+[37m      95 │         [32mtotal[37m: variant2.price!
+         ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:109:8:
+[37m      109 │         [32mtotal[37m: variant1.price!
+          ╵         [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'total' does not exist on type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:114:38:
+[37m      114 │ ...expect(component.cartItems()[0].[32mtotal[37m).toBe(variant1.price! * 2);
+          ╵                                    [32m~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2353: Object literal may only specify known properties, and 'total' does not exist in type 'OrderItem'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/pos/pos.spec.ts:127:8:
+[37m      127 │         [32mtotal[37m: product.price * 5
+          ╵         [32m~~~~~[0m
+
+

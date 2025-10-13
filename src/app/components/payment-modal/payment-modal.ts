@@ -1,11 +1,83 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Order } from '../../models/order';
+import { CurrencyPipe, KeyValuePipe } from '@angular/common';
+
+export enum PaymentType {
+  CASH = 'Cash',
+  CARD = 'Card',
+  TRANSFER = 'Transfer',
+}
+
+export interface Payment {
+  type: PaymentType;
+  amount: number;
+}
 
 @Component({
   selector: 'app-payment-modal',
-  imports: [],
+  imports: [CurrencyPipe, KeyValuePipe],
   templateUrl: './payment-modal.html',
-  styleUrl: './payment-modal.scss'
+  styleUrl: './payment-modal.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentModal {
+  order = input.required<Order>();
+  isModalOpen = model(false);
+  
+  protected readonly payments = signal<Payment[]>([]);
+  protected readonly paymentType = PaymentType;
+  
+  protected readonly remainingBalance = computed(() => {
+    const totalPaid = this.payments().reduce((acc, payment) => acc + payment.amount, 0);
+    return this.order().total - totalPaid;
+  });
 
+  addPayment(type: PaymentType) {
+    const remaining = this.remainingBalance();
+    const newPayment: Payment = { type, amount: remaining };
+    this.payments.update(payments => [...payments, newPayment]);
+    this.distributeRemainingAmount();
+  }
+
+  removePayment(index: number) {
+    this.payments.update(payments => {
+      const newPayments = [...payments];
+      newPayments.splice(index, 1);
+      return newPayments;
+    });
+    this.distributeRemainingAmount();
+  }
+
+  updatePaymentAmount(index: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const amount = Number(input.value);
+    this.payments.update(payments => {
+      const newPayments = [...payments];
+      newPayments[index] = { ...newPayments[index], amount };
+      return newPayments;
+    });
+  }
+
+  private distributeRemainingAmount() {
+    const remaining = this.remainingBalance();
+    const payments = this.payments();
+    if (payments.length === 0) {
+      return;
+    }
+    const amountPerPayment = remaining / payments.length;
+    this.payments.update(p => p.map(payment => ({ ...payment, amount: payment.amount + amountPerPayment })));
+  }
+
+  getPaymentType(type: string): PaymentType {
+    return type as PaymentType;
+  }
+
+  processPayment() {
+    if (this.remainingBalance() > 0) {
+      return;
+    }
+
+    this.isModalOpen.set(false);
+  }
 }

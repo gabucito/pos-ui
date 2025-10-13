@@ -1,11 +1,15 @@
-.pos-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1rem;
+.pay-button {
+    background-color: #008cba;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
 
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+    &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 }

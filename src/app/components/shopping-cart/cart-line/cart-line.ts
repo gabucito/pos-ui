@@ -51,23 +51,6 @@ export class CartLine {
     }
   }
 
-  // updateField(field: string, newValue: string | number) {
-  //   let newItem = { ...this.item() };
-
-  //   // The logic to handle the specific field update
-  //   if (field === 'product.name') {
-  //     // Create a new nested object for immutability
-  //     newItem.product = { ...newItem.product, name: newValue as string };
-  //   } else if (field === 'quantity') {
-  //     newItem.quantity = Number(newValue);
-  //   } else if (field === 'price') {
-  //     newItem.price = Number(newValue);
-  //   }
-
-  //   console.log('Updated Item:', newItem);
-  //   this.update.emit(newItem);
-  // }
-
   removeItem() {
     this.remove.emit(this.item());
   }

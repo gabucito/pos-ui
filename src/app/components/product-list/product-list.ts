@@ -56,8 +56,7 @@ export class ProductList {
         variant: null,
         quantity: quantity,
         basePrice: product.price,
-        price: newPrice,
-        total: newPrice
+        price: newPrice
       };
       this.productAdded.emit(orderItem);
     }

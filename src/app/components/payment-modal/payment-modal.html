@@ -1,1 +1,31 @@
-<p>payment-modal works!</p>
+<div class="payment-modal-container">
+    <div class="payment-modal-content">
+        <div class="payment-modal-header">
+            <h2>Process Payment</h2>
+            <button (click)="isModalOpen.set(false)" class="close-button">&times;</button>
+        </div>
+        <div class="payment-modal-body">
+            <div class="remaining-balance">
+                <span>Remaining Balance:</span>
+                <span>{{ remainingBalance() | currency }}</span>
+            </div>
+            <div class="payment-methods">
+                @for (type of paymentType | keyvalue; track type.key) {
+                    <button (click)="addPayment(getPaymentType(type.key))">{{ type.value }}</button>
+                }
+            </div>
+            <div class="payment-list">
+                @for (payment of payments(); track payment; let i = $index) {
+                    <div class="payment-item">
+                        <span>{{ payment.type }}:</span>
+                        <input type="number" [value]="payment.amount" (input)="updatePaymentAmount(i, $event)" />
+                        <button (click)="removePayment(i)" class="remove-button">Remove</button>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="payment-modal-footer">
+            <button (click)="processPayment()" [disabled]="remainingBalance() > 0">Process Payment</button>
+        </div>
+    </div>
+</div>

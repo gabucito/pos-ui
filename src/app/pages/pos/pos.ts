@@ -3,7 +3,8 @@ import { ProductList } from '../../components/product-list/product-list';
 import { ShoppingCart } from '../../components/shopping-cart/shopping-cart';
 import { CustomerForm } from '../../components/customer-form/customer-form';
 import { VariantModal } from '../../components/variant-modal/variant-modal';
-import { OrderItem } from '../../models/order';
+import { PaymentModal } from '../../components/payment-modal/payment-modal';
+import { OrderItem, Order } from '../../models/order';
 import { Customer } from '../../models/customer';
 import { Product, ProductVariantOption, PriceTier } from '../../models/product';
 import { v7 as uuidv7 } from 'uuid';
@@ -11,23 +12,57 @@ import { getTieredPrice } from '../../utils/pricing.utils';
 
 @Component({
   selector: 'app-pos', // Changed selector
-  imports: [ProductList, ShoppingCart, CustomerForm, VariantModal],
+  imports: [ProductList, ShoppingCart, CustomerForm, VariantModal, PaymentModal],
   templateUrl: './pos.html', // Changed templateUrl
   styleUrl: './pos.scss' // Changed styleUrl
 })
 export class Pos { // Changed class name
   public readonly title = signal('pos-ui');
   cartItems = signal<OrderItem[]>([]);
+  cartTotals = signal<{ subtotal: number; tax: number; total: number }>({ subtotal: 0, tax: 0, total: 0 });
   selectedCustomer = signal<Customer | null>(null);
   isVariantModalOpen = signal(false);
   selectedProductForVariant = signal<Product | null>(null);
+  isPaymentModalOpen = signal(false);
+  currentOrder = signal<Order | null>(null);
+
+  onPay() {
+    const { subtotal, tax, total } = this.cartTotals();
+    const order: Order = {
+      id: uuidv7(),
+      items: this.cartItems(),
+      customer: this.selectedCustomer(),
+      subtotal,
+      tax,
+      total,
+      status: 'pending'
+    };
+    this.currentOrder.set(order);
+    this.isPaymentModalOpen.set(true);
+  }
+
+  onPaymentSuccess(order: Order) {
+    console.log('Payment successful for order:', order);
+    this.cartItems.set([]);
+    this.selectedCustomer.set(null);
+    this.calculateTotals();
+  }
+
+  private calculateTotals() {
+    const subtotal = this.cartItems().reduce((acc, item) => acc + (item.quantity * item.price), 0);
+    const tax = 0; // Assuming 0 tax for now
+    const total = subtotal + tax;
+    this.cartTotals.set({ subtotal, tax, total });
+  }
 
   onProductAdded(item: OrderItem) {
     const existingItem = this.cartItems().find(i => i.product.id === item.product.id && i.variant?.id === item.variant?.id);
     if (existingItem) {
         const updatedItems = this.cartItems().map(i => {
             if (i.id === existingItem.id) {
-                return { ...i, quantity: i.quantity + 1, total: (i.quantity + 1) * i.price };
+                const newQuantity = i.quantity + 1;
+                const newPrice = getTieredPrice(i.basePrice, newQuantity, i.variant?.priceTiers);
+                return { ...i, quantity: newQuantity, price: newPrice };
             }
             return i;
         });
@@ -35,10 +70,12 @@ export class Pos { // Changed class name
     } else {
         this.cartItems.set([...this.cartItems(), item]);
     }
+    this.calculateTotals();
   }
 
   onCartUpdated(items: OrderItem[]) {
     this.cartItems.set(items);
+    this.calculateTotals();
   }
 
   onCustomerSelected(customer: Customer) {
@@ -67,8 +104,7 @@ export class Pos { // Changed class name
         variant: variant,
         quantity: quantity,
         basePrice: variant.price,
-        price: newPrice,
-        total: newPrice
+        price: newPrice
       };
       this.onProductAdded(orderItem);
     }

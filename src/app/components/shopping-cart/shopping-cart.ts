@@ -1,5 +1,4 @@
-// We should prefer using signals for inputs, outputs, models, etc.
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal, effect } from '@angular/core';
 import { OrderItem } from '../../models/order';
 import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
 import { CartLine } from './cart-line/cart-line';
@@ -17,7 +16,7 @@ export class ShoppingCart {
   // Emits events to the parent to request updates.
   updateItems = output<OrderItem[]>();
 
-  subtotal = computed(() => this.items().reduce((acc, item) => acc + item.total, 0));
+  subtotal = computed(() => this.processedItems().reduce((acc, item) => acc + (item.quantity * item.price), 0));
   tax = computed(() => this.subtotal() * 0.19); // 19% tax
   total = computed(() => this.subtotal() + this.tax());
 
@@ -33,14 +32,20 @@ export class ShoppingCart {
         ? item.price
         : getTieredPrice(item.product.price, totalQuantity, item.product.priceTiers);
 
-      // Return a new object with the updated price and total
+      // Return a new object with the updated price
       return {
         ...item,
         price: newPrice,
-        total: item.quantity * newPrice,
       };
     });
   });
+
+  constructor() {
+    effect(() => {
+      // Emit updated items when processedItems changes
+      this.updateItems.emit(this.processedItems());
+    });
+  }
 
   private calculateProductQuantities(items: OrderItem[]): Map<string, number> {
     const productQuantities = new Map<string, number>();
@@ -52,7 +57,8 @@ export class ShoppingCart {
   }
 
   // Event handler for a quantity change
-  handleUpdateQuantity({ itemId, newQuantity }: { itemId: string; newQuantity: number }) {
+  handleUpdateQuantity(event: { itemId: string; newQuantity: number }) {
+    const { itemId, newQuantity } = event;
     const currentItems = this.items();
     const newItems = currentItems.map((item) => {
       // When quantity changes, clear any manual price override for this item
@@ -66,7 +72,8 @@ export class ShoppingCart {
   }
 
   // Event handler for a price change
-  handleUpdatePrice({ itemId, newPrice }: { itemId: string; newPrice: number }) {
+  handleUpdatePrice(event: { itemId: string; newPrice: number }) {
+    const { itemId, newPrice } = event;
     console.log('Handling price update:', itemId, newPrice);
     const currentItems = this.items();
     const newItems = currentItems.map((item) =>
@@ -78,7 +85,8 @@ export class ShoppingCart {
   }
 
   // Event handler for a product name change
-  handleUpdateProductName({ itemId, newName }: { itemId: string; newName: string }) {
+  handleUpdateProductName(event: { itemId: string; newName: string }) {
+    const { itemId, newName } = event;
     const currentItems = this.items();
     const newItems = currentItems.map((item) =>
       item.id === itemId ? { ...item, product: { ...item.product, name: newName } } : item
