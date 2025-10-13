@@ -1,5 +1,9 @@
 # PosUi
 
+PosUi is a Point of Sale (POS) system built with Angular. This application provides a user-friendly interface for managing sales transactions in retail environments. Users can browse available products, add items to their shopping cart, select product variants (such as size or color), enter customer information, calculate prices with tiered pricing support, and process payments through a modal interface.
+
+The system includes key components like a product list, shopping cart with line items, customer form, payment modal, and variant selection modal. It utilizes modern Angular features such as signals for reactive state management and can be extended with backend integrations for inventory and payment processing.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
 
 ## Development server
