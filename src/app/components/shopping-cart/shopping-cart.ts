@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal, effect } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { OrderItem } from '../../models/order';
 import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
 import { CartLine } from './cart-line/cart-line';
@@ -40,13 +40,6 @@ export class ShoppingCart {
     });
   });
 
-  constructor() {
-    effect(() => {
-      // Emit updated items when processedItems changes
-      this.updateItems.emit(this.processedItems());
-    });
-  }
-
   private calculateProductQuantities(items: OrderItem[]): Map<string, number> {
     const productQuantities = new Map<string, number>();
     for (const item of items) {
@@ -64,7 +57,8 @@ export class ShoppingCart {
       // When quantity changes, clear any manual price override for this item
       // and recalculate the tiered price based on the new total quantity.
       if (item.id === itemId) {
-        return { ...item, quantity: newQuantity, priceOverridden: false };
+        const newPrice = getTieredPrice(item.basePrice, newQuantity, item.variant?.priceTiers);
+        return { ...item, quantity: newQuantity, price: newPrice, priceOverridden: false };
       }
       return item;
     });

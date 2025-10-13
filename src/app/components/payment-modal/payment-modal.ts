@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Order } from '../../models/order';
-import { CurrencyPipe, KeyValuePipe } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 export enum PaymentType {
   CASH = 'Cash',
@@ -16,7 +17,7 @@ export interface Payment {
 
 @Component({
   selector: 'app-payment-modal',
-  imports: [CurrencyPipe, KeyValuePipe],
+  imports: [CurrencyPipe, KeyValuePipe, FormsModule],
   templateUrl: './payment-modal.html',
   styleUrl: './payment-modal.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,14 +50,18 @@ export class PaymentModal {
     this.distributeRemainingAmount();
   }
 
-  updatePaymentAmount(index: number, event: Event) {
-    const input = event.target as HTMLInputElement;
-    const amount = Number(input.value);
+  updatePaymentAmount(index: number, newAmount: number) {
     this.payments.update(payments => {
       const newPayments = [...payments];
-      newPayments[index] = { ...newPayments[index], amount };
+      newPayments[index] = { ...newPayments[index], amount: newAmount };
       return newPayments;
     });
+  }
+
+  onAmountChange(index: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const amount = Number(input.value);
+    this.updatePaymentAmount(index, amount);
   }
 
   private distributeRemainingAmount() {

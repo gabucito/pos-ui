@@ -50,16 +50,18 @@ export class Pos { // Changed class name
 
   private calculateTotals() {
     const subtotal = this.cartItems().reduce((acc, item) => acc + (item.quantity * item.price), 0);
-    const tax = 0; // Assuming 0 tax for now
+    const tax = subtotal * 0.19; // 19% tax
     const total = subtotal + tax;
     this.cartTotals.set({ subtotal, tax, total });
+    console.log('Cart totals updated');
   }
 
   onProductAdded(item: OrderItem) {
-    const existingItem = this.cartItems().find(i => i.product.id === item.product.id && i.variant?.id === item.variant?.id);
-    if (existingItem) {
-        const updatedItems = this.cartItems().map(i => {
-            if (i.id === existingItem.id) {
+    const existingItemIndex = this.cartItems().findIndex(i => i.product.id === item.product.id && i.variant?.id === item.variant?.id);
+
+    if (existingItemIndex > -1) {
+        const updatedItems = this.cartItems().map((i, index) => {
+            if (index === existingItemIndex) {
                 const newQuantity = i.quantity + 1;
                 const newPrice = getTieredPrice(i.basePrice, newQuantity, i.variant?.priceTiers);
                 return { ...i, quantity: newQuantity, price: newPrice };

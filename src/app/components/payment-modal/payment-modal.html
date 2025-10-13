@@ -18,7 +18,7 @@
                 @for (payment of payments(); track payment; let i = $index) {
                     <div class="payment-item">
                         <span>{{ payment.type }}:</span>
-                        <input type="number" [value]="payment.amount" (input)="updatePaymentAmount(i, $event)" />
+                        <input type="number" [(ngModel)]="payment.amount" (blur)="onAmountChange(i, $event)" (keydown.enter)="onAmountChange(i, $event)" />
                         <button (click)="removePayment(i)" class="remove-button">Remove</button>
                     </div>
                 }
