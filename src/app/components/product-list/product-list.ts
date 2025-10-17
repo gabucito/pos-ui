@@ -1,16 +1,15 @@
-import { Component, signal, computed, output, inject } from '@angular/core';
-import { Product, PriceTier } from '../../models/product'; // Import PriceTier
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { Product } from '../../models/product';
 import { PRODUCTS } from '../../mock-data';
-import { OrderItem } from '../../models/order';
-import { v7 as uuidv7 } from 'uuid';
-import { getTieredPrice } from '../../utils/pricing.utils';
 import { PosService } from '../../services/pos.service';
 
 @Component({
   selector: 'app-product-list',
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.scss'
+  styleUrl: './product-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductList {
   private posService = inject(PosService);
@@ -21,7 +20,7 @@ export class ProductList {
 
   categories = computed(() => {
     const allCategories = this.products().map(p => p.category);
-    return ['All Categories', ...new Set(allCategories)];
+    return Array.from(new Set(allCategories));
   });
 
   filteredProducts = computed(() => {

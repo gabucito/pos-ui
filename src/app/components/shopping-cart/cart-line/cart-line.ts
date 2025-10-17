@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { OrderItem } from '../../../models/order';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { DecimalPipe } from '@angular/common';
   imports: [DecimalPipe, FormsModule],
   templateUrl: './cart-line.html',
   styleUrl: './cart-line.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartLine {
   item = input.required<OrderItem>();

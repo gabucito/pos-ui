@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, input, model, signal, inject } from '@angular/core';
 import { Order } from '../../models/order';
-import { CurrencyPipe, KeyValuePipe, CommonModule } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PosService } from '../../services/pos.service';
 

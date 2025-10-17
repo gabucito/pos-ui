@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Customer } from '../../models/customer';
 
@@ -6,7 +6,8 @@ import { Customer } from '../../models/customer';
   selector: 'app-customer-form',
   imports: [ReactiveFormsModule],
   templateUrl: './customer-form.html',
-  styleUrl: './customer-form.scss'
+  styleUrl: './customer-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerForm {
   customerSelected = output<Customer>();

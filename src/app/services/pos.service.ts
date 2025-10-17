@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Order, OrderItem } from '../models/order';
 import { Customer } from '../models/customer';
 import { Product, ProductVariantOption } from '../models/product';
@@ -11,55 +11,20 @@ import { getTieredPrice } from '../utils/pricing.utils';
 export class PosService {
   orders = signal<Order[]>([]);
   private activeOrderIndex = signal<number>(0);
+  private readonly taxRate = 0.19;
 
-  // Public signals for the active order
-  private rawCartItems = computed<OrderItem[]>(() => this.orders()[this.activeOrderIndex()]?.items || []);
-
-  // A computed signal to process and update all prices reactively
-  processedItems = computed(() => {
-    const currentItems = this.rawCartItems();
-    const productQuantities = this.calculateProductQuantities(currentItems);
-
-    return currentItems.map((item) => {
-      const totalQuantity = productQuantities.get(item.product.id) || 0;
-      // Use manually overridden price if it exists
-      const newPrice = item.priceOverridden
-        ? item.price
-        : getTieredPrice(item.product, totalQuantity, item.variant);
-
-      // Return a new object with the updated price
-      return {
-        ...item,
-        price: newPrice,
-      };
-    });
-  });
-
-  cartItems = computed<OrderItem[]>(() => this.processedItems());
-
-  cartTotals = computed<{ subtotal: number; tax: number; total: number }>(() => {
-    const subtotal = this.cartItems().reduce((acc, item) => acc + (item.quantity * item.price), 0);
-    const tax = subtotal * 0.19; // 19% tax
-    const total = subtotal + tax;
-    return { subtotal, tax, total };
-  });
-  selectedCustomer = computed<Customer | null>(() => this.orders()[this.activeOrderIndex()]?.customer || null);
+  private rawCartItems = computed<OrderItem[]>(() => this.orders()[this.activeOrderIndex()]?.items ?? []);
+  cartItems = computed<OrderItem[]>(() => this.applyPricing(this.rawCartItems()));
+  cartTotals = computed<{ subtotal: number; tax: number; total: number }>(() =>
+    this.calculateTotals(this.cartItems()),
+  );
+  selectedCustomer = computed<Customer | null>(() => this.orders()[this.activeOrderIndex()]?.customer ?? null);
   isVariantModalOpen = signal(false);
   selectedProductForVariant = signal<Product | null>(null);
   isPaymentModalOpen = signal(false);
-  currentOrder = computed<Order | null>(() => this.orders()[this.activeOrderIndex()] || null);
-
-  private calculateProductQuantities(items: OrderItem[]): Map<string, number> {
-    const productQuantities = new Map<string, number>();
-    for (const item of items) {
-      const currentQuantity = productQuantities.get(item.product.id) || 0;
-      productQuantities.set(item.product.id, currentQuantity + item.quantity);
-    }
-    return productQuantities;
-  }
+  currentOrder = computed<Order | null>(() => this.orders()[this.activeOrderIndex()] ?? null);
 
   constructor() {
-    // Initialize with a default empty order
     this.addOrder();
   }
 
@@ -112,71 +77,38 @@ export class PosService {
   }
 
   private addOrderItem(item: OrderItem) {
-    this.orders.update((orders) => {
-      const currentOrder = { ...orders[this.activeOrderIndex()] };
-      const existingItemIndex = currentOrder.items.findIndex(
-        (i) => i.product.id === item.product.id && i.variant?.id === item.variant?.id
+    this.updateCurrentOrderItems((items) => {
+      const existingItemIndex = items.findIndex(
+        (existing) => existing.product.id === item.product.id && existing.variant?.id === item.variant?.id,
       );
 
       if (existingItemIndex > -1) {
-        currentOrder.items = currentOrder.items.map((i, index) => {
-          if (index === existingItemIndex) {
-            const newQuantity = i.quantity + 1;
-            const newPrice = getTieredPrice(i.product, newQuantity, i.variant);
-            return { ...i, quantity: newQuantity, price: newPrice };
-          }
-          return i;
-        });
-      } else {
-        currentOrder.items = [...currentOrder.items, item];
+        return items.map((existing, index) =>
+          index === existingItemIndex
+            ? { ...existing, quantity: existing.quantity + item.quantity }
+            : existing,
+        );
       }
 
-      // Update the orders signal first to trigger cartTotals re-evaluation
-      const updatedOrders = [...orders];
-      updatedOrders[this.activeOrderIndex()] = currentOrder;
-      this.orders.set(updatedOrders);
-
-      // Now, recalculate totals for the current order using the re-evaluated cartTotals
-      const { subtotal, tax, total } = this.cartTotals();
-      currentOrder.subtotal = subtotal;
-      currentOrder.tax = tax;
-      currentOrder.total = total;
-
-      // Update the orders signal again with the new totals
-      updatedOrders[this.activeOrderIndex()] = currentOrder;
-      return updatedOrders;
+      return [...items, { ...item }];
     });
   }
 
   onCartUpdated(items: OrderItem[]) {
-    this.orders.update((orders) => {
-      const currentOrder = { ...orders[this.activeOrderIndex()] };
-      currentOrder.items = items;
-
-      // Update the orders signal first to trigger cartTotals re-evaluation
-      const updatedOrders = [...orders];
-      updatedOrders[this.activeOrderIndex()] = currentOrder;
-      this.orders.set(updatedOrders);
-
-      // Now, recalculate totals for the current order using the re-evaluated cartTotals
-      const { subtotal, tax, total } = this.cartTotals();
-      currentOrder.subtotal = subtotal;
-      currentOrder.tax = tax;
-      currentOrder.total = total;
-
-      // Update the orders signal again with the new totals
-      updatedOrders[this.activeOrderIndex()] = currentOrder;
-      return updatedOrders;
-    });
+    this.updateCurrentOrderItems(() => items.map((item) => ({ ...item })));
   }
 
   onCustomerSelected(customer: Customer) {
     this.orders.update((orders) => {
-      const currentOrder = { ...orders[this.activeOrderIndex()] };
-      currentOrder.customer = customer;
-      const newOrders = [...orders];
-      newOrders[this.activeOrderIndex()] = currentOrder;
-      return newOrders;
+      const index = this.activeOrderIndex();
+      const currentOrder = orders[index];
+      if (!currentOrder) {
+        return orders;
+      }
+
+      const updatedOrders = [...orders];
+      updatedOrders[index] = { ...currentOrder, customer };
+      return updatedOrders;
     });
   }
 
@@ -198,7 +130,6 @@ export class PosService {
       if (selectedVariant) {
         const quantity = 1;
         const newPrice = getTieredPrice(product, quantity, selectedVariant);
-        console.log(newPrice);
         const orderItem: OrderItem = {
           id: uuidv7(),
           product: product,
@@ -227,5 +158,65 @@ export class PosService {
     });
     this.isPaymentModalOpen.set(false);
     this.addOrder(); // Start a new order after successful payment
+  }
+
+  private updateCurrentOrderItems(modifier: (items: OrderItem[]) => OrderItem[]) {
+    const index = this.activeOrderIndex();
+    this.orders.update((orders) => {
+      const currentOrder = orders[index];
+      if (!currentOrder) {
+        return orders;
+      }
+
+      const mutableItems = currentOrder.items.map((item) => ({ ...item }));
+      const modifiedItems = modifier(mutableItems);
+      const pricedItems = this.applyPricing(modifiedItems);
+      const totals = this.calculateTotals(pricedItems);
+
+      const nextOrders = [...orders];
+      nextOrders[index] = {
+        ...currentOrder,
+        items: pricedItems,
+        subtotal: totals.subtotal,
+        tax: totals.tax,
+        total: totals.total,
+      };
+      return nextOrders;
+    });
+  }
+
+  private applyPricing(items: OrderItem[]): OrderItem[] {
+    const productQuantities = this.calculateItemQuantities(items);
+    return items.map((item) => {
+      if (item.priceOverridden) {
+        return { ...item };
+      }
+
+      const key = this.getItemKey(item);
+      const totalQuantity = productQuantities.get(key) ?? item.quantity;
+      const recalculatedPrice = getTieredPrice(item.product, totalQuantity, item.variant ?? null);
+      return { ...item, price: recalculatedPrice };
+    });
+  }
+
+  private calculateItemQuantities(items: OrderItem[]): Map<string, number> {
+    const productQuantities = new Map<string, number>();
+    for (const item of items) {
+      const key = this.getItemKey(item);
+      const currentQuantity = productQuantities.get(key) ?? 0;
+      productQuantities.set(key, currentQuantity + item.quantity);
+    }
+    return productQuantities;
+  }
+
+  private getItemKey(item: OrderItem): string {
+    return item.variant ? `${item.product.id}::${item.variant.id}` : item.product.id;
+  }
+
+  private calculateTotals(items: OrderItem[]): { subtotal: number; tax: number; total: number } {
+    const subtotal = items.reduce((acc, item) => acc + item.quantity * item.price, 0);
+    const tax = subtotal * this.taxRate;
+    const total = subtotal + tax;
+    return { subtotal, tax, total };
   }
 }

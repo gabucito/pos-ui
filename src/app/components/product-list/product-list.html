@@ -11,7 +11,7 @@
     <div class="product-grid">
         @for (product of filteredProducts(); track product.id) {
             <div class="product-card">
-                <img [src]="product.imageUrl" [alt]="product.name">
+                <img [ngSrc]="product.imageUrl" [alt]="product.name" width="150" height="150">
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
                 <button (click)="addProductToCart(product)">Add to Cart</button>

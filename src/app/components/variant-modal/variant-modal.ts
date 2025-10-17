@@ -1,11 +1,12 @@
-import { Component, input, output } from '@angular/core';
-import { Product, ProductVariant, ProductVariantOption } from '../../models/product';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Product, ProductVariantOption } from '../../models/product';
 
 @Component({
   selector: 'app-variant-modal',
   imports: [],
   templateUrl: './variant-modal.html',
-  styleUrls: ['./variant-modal.scss']
+  styleUrl: './variant-modal.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantModal {
   product = input<Product | null>();

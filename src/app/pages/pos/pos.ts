@@ -1,24 +1,19 @@
-import { Component, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProductList } from '../../components/product-list/product-list';
 import { ShoppingCart } from '../../components/shopping-cart/shopping-cart';
 import { CustomerForm } from '../../components/customer-form/customer-form';
 import { VariantModal } from '../../components/variant-modal/variant-modal';
 import { PaymentModal } from '../../components/payment-modal/payment-modal';
-import { OrderItem, Order } from '../../models/order';
-import { Customer } from '../../models/customer';
-import { Product, ProductVariantOption, PriceTier } from '../../models/product';
-import { v7 as uuidv7 } from 'uuid';
-import { getTieredPrice } from '../../utils/pricing.utils';
 import { PosService } from '../../services/pos.service';
 
 @Component({
-  selector: 'app-pos', // Changed selector
+  selector: 'app-pos',
   imports: [ProductList, ShoppingCart, CustomerForm, VariantModal, PaymentModal],
-  templateUrl: './pos.html', // Changed templateUrl
-  styleUrl: './pos.scss' // Changed styleUrl
+  templateUrl: './pos.html',
+  styleUrl: './pos.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Pos { // Changed class name
-  public readonly title = signal('pos-ui');
+export class Pos {
   private posService = inject(PosService);
 
   // Expose signals from the service

@@ -1,6 +1,6 @@
-import { Component, computed, input, output, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { OrderItem } from '../../models/order';
-import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
+import { DecimalPipe } from '@angular/common';
 import { CartLine } from './cart-line/cart-line';
 import { getTieredPrice } from '../../utils/pricing.utils';
 import { PosService } from '../../services/pos.service';
@@ -10,11 +10,12 @@ import { PosService } from '../../services/pos.service';
   imports: [CartLine, DecimalPipe],
   templateUrl: './shopping-cart.html',
   styleUrl: './shopping-cart.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingCart {
   private posService = inject(PosService);
 
-  items = this.posService.processedItems;
+  items = this.posService.cartItems;
 
   subtotal = computed(() => this.posService.cartTotals().subtotal);
   tax = computed(() => this.posService.cartTotals().tax);
@@ -39,7 +40,6 @@ export class ShoppingCart {
   // Event handler for a price change
   handleUpdatePrice(event: { itemId: string; newPrice: number }) {
     const { itemId, newPrice } = event;
-    console.log('Handling price update:', itemId, newPrice);
     const currentItems = this.items();
     const newItems = currentItems.map((item) =>
       item.id === itemId
